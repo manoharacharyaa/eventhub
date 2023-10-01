@@ -1,5 +1,6 @@
 import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
+import 'package:eventhub/views/login.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 logoutUser();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                );
               },
               icon: const Icon(Icons.logout),
               color: kPrimary,

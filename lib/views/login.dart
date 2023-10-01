@@ -3,6 +3,7 @@ import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
 import 'package:eventhub/views/homepage.dart';
+import 'package:eventhub/views/signup.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -135,7 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpPage(),
+                          ),
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

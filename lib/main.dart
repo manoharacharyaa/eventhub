@@ -1,6 +1,5 @@
 import 'package:eventhub/colors/colors.dart';
-import 'package:eventhub/views/login.dart';
-import 'package:eventhub/views/signup.dart';
+import 'package:eventhub/views/checksession.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SignUpPage(),
+      home: const CheckSession(),
     );
   }
 }
