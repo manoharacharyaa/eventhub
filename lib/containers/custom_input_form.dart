@@ -1,3 +1,4 @@
+import 'package:eventhub/colors/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomInputForm extends StatelessWidget {
@@ -10,6 +11,7 @@ class CustomInputForm extends StatelessWidget {
   final int? maxLines;
   final VoidCallback? onTap;
   final bool? readOnly;
+  final String? Function(String?)? validator;
   const CustomInputForm({
     super.key,
     required this.icon,
@@ -21,6 +23,7 @@ class CustomInputForm extends StatelessWidget {
     this.onTap,
     this.readOnly,
     this.controller,
+    this.validator,
   });
 
   @override
@@ -35,9 +38,10 @@ class CustomInputForm extends StatelessWidget {
       obscureText: obscureText ?? false,
       keyboardType: keyboardType ?? TextInputType.text,
       cursorColor: Colors.black,
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color.fromARGB(255, 218, 255, 123),
+        fillColor: kPrimary,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8),

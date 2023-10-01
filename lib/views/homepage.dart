@@ -1,3 +1,4 @@
+import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,9 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: kTransparent,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                logoutUser();
+              },
               icon: const Icon(Icons.logout),
               color: kPrimary,
               iconSize: 30,

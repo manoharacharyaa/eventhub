@@ -17,9 +17,9 @@ Future<String> createUser(String name, String email, String password) async {
   try {
     final user = await account.create(
       userId: ID.unique(),
-      name: '',
-      email: '',
-      password: '',
+      name: name,
+      email: email,
+      password: password,
     );
     return 'sucess';
   } on AppwriteException catch (e) {
@@ -30,8 +30,11 @@ Future<String> createUser(String name, String email, String password) async {
 //Login
 Future loginUser(String email, String password) async {
   try {
-    final user =
-        await account.createEmailSession(email: email, password: password);
+    final user = await account.createEmailSession(
+      email: email,
+      password: password,
+    );
+    return true;
   } on AppwriteException catch (e) {
     return false;
   }

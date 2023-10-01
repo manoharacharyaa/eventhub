@@ -1,5 +1,6 @@
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/views/login.dart';
+import 'package:eventhub/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginPage(),
+      home: const SignUpPage(),
     );
   }
 }
