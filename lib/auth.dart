@@ -2,6 +2,7 @@
 
 import 'package:appwrite/appwrite.dart';
 import 'package:eventhub/database.dart';
+import 'package:eventhub/saved_data.dart';
 
 //Appwrite Initilisation
 Client client = Client()
@@ -36,6 +37,8 @@ Future loginUser(String email, String password) async {
       email: email,
       password: password,
     );
+    getUserData();
+    SaveData.saveUserId(user.userId);
     return true;
   } on AppwriteException catch (e) {
     return false;

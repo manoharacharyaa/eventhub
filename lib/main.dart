@@ -1,9 +1,12 @@
 import 'package:eventhub/colors/colors.dart';
+import 'package:eventhub/saved_data.dart';
 import 'package:eventhub/views/checksession.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SaveData.init();
   runApp(const MyApp());
 }
 

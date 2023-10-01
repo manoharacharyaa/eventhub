@@ -1,5 +1,6 @@
 import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
+import 'package:eventhub/saved_data.dart';
 import 'package:eventhub/views/login.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String userName = 'User';
+  @override
+  void initState() {
+    userName = SaveData.getUserName();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Text(
-          'Hi User',
+          'Hi ${userName}',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
