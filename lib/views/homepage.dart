@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 logoutUser();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const LoginPage(),

@@ -17,14 +17,14 @@ class _CheckSessionState extends State<CheckSession> {
     super.initState();
     checkSession().then((value) {
       if (value) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const HomePage(),
           ),
         );
       } else {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const LoginPage(),

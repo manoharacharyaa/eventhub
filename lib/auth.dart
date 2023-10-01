@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, unused_catch_clause
 
 import 'package:appwrite/appwrite.dart';
+import 'package:eventhub/database.dart';
 
 //Appwrite Initilisation
 Client client = Client()
@@ -21,6 +22,7 @@ Future<String> createUser(String name, String email, String password) async {
       email: email,
       password: password,
     );
+    saveUserData(name, email, user.$id);
     return 'sucess';
   } on AppwriteException catch (e) {
     return e.message.toString();
