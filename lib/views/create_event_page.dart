@@ -5,10 +5,11 @@ import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_headtext.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
+import 'package:eventhub/database.dart';
+import 'package:eventhub/saved_data.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:get/get.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -23,6 +24,7 @@ class _CreateEventPageState extends State<CreateEventPage>
 
   FilePickerResult? _filePickerResult;
   bool _isInPersonEvent = true;
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -32,11 +34,13 @@ class _CreateEventPageState extends State<CreateEventPage>
 
   Storage storage = Storage(client);
   bool isUploading = false;
+  String userId = '';
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+    userId = SaveData.getUserId();
   }
 
   @override
@@ -64,6 +68,7 @@ class _CreateEventPageState extends State<CreateEventPage>
           pickedDateTime.month,
           pickedDateTime.day,
           pickTime.hour,
+          pickTime.minute,
         );
         setState(() {
           _dateTimeController.text = selectedDateTime.toString();
@@ -172,6 +177,12 @@ class _CreateEventPageState extends State<CreateEventPage>
                   icon: Icons.event,
                   label: 'Event Name',
                   hint: 'Enter your event name',
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Event name is required';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: height * 0.02),
                 SizedBox(
@@ -247,7 +258,39 @@ class _CreateEventPageState extends State<CreateEventPage>
                 SizedBox(height: height * 0.02),
                 MaterialButton(
                   onPressed: () {
-                    uploadEventImage();
+                    if (_nameController.text == '' ||
+                        _descController.text == '' ||
+                        _locationController.text == '' ||
+                        _dateTimeController.text == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Event Name, Description, Location, DateTime are required',
+                          ),
+                        ),
+                      );
+                    } else {
+                      uploadEventImage()
+                          .then((value) => createEvent(
+                                _nameController.text,
+                                _descController.text,
+                                value, //value is of image (Image Id)
+                                _locationController.text,
+                                _dateTimeController.text,
+                                userId,
+                                _isInPersonEvent,
+                                _guestController.text,
+                                _sponsersController.text,
+                              ))
+                          .then((value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Event Created'),
+                          ),
+                        );
+                        Navigator.pop(context);
+                      });
+                    }
                   },
                   color: kPrimary,
                   shape: RoundedRectangleBorder(
