@@ -24,7 +24,6 @@ class _CreateEventPageState extends State<CreateEventPage>
 
   FilePickerResult? _filePickerResult;
   bool _isInPersonEvent = true;
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
