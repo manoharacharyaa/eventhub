@@ -40,3 +40,48 @@ Future getUserData() async {
     print(e);
   }
 }
+
+//Create new events
+Future<void> createEvent(
+  String name,
+  String desc,
+  String image,
+  String location,
+  String datetime,
+  String createdBy,
+  bool isPerson,
+  String guest,
+  String sponsers,
+) async {
+  return await database
+      .createDocument(
+          databaseId: databaseId,
+          collectionId: '651a83fdaad202984933',
+          documentId: ID.unique(),
+          data: {
+            "name": name,
+            "description": desc,
+            "image": image,
+            "location": location,
+            "datetime": datetime,
+            "createdBy": createdBy,
+            "isInPerson": isPerson,
+            "guests": guest,
+            "sponsers": sponsers,
+          })
+      .then((value) => print('Event Created'))
+      .catchError((e) => print(e));
+}
+
+//Read all events from DB
+Future getAllEvents() async {
+  try {
+    final data = await database.listDocuments(
+      databaseId: databaseId,
+      collectionId: '651a83fdaad202984933',
+    );
+    return data.documents;
+  } catch (e) {
+    print(e);
+  }
+}
