@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
+import 'dart:io';
+
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_headtext.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class CreateEventPage extends StatefulWidget {
@@ -15,6 +18,7 @@ class _CreateEventPageState extends State<CreateEventPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
+  FilePickerResult? _filePickerResult;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -61,6 +65,13 @@ class _CreateEventPageState extends State<CreateEventPage>
     }
   }
 
+  void _openFilePicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    setState(() {
+      _filePickerResult = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -75,30 +86,47 @@ class _CreateEventPageState extends State<CreateEventPage>
               children: [
                 const CustomHeadText(text: 'Create Event'),
                 SizedBox(height: height * 0.01),
-                Container(
-                  height: height * 0.25,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kPrimary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.add_a_photo_rounded,
-                        size: 45,
-                        color: Colors.black,
-                      ),
-                      SizedBox(height: height * 0.01),
-                      Text(
-                        'Add an image',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: Colors.black),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _openFilePicker();
+                    });
+                  },
+                  child: Container(
+                    height: height * 0.25,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: kPrimary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: _filePickerResult != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image(
+                              image: FileImage(
+                                File(_filePickerResult!.files.first.path!),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.add_a_photo_rounded,
+                                size: 45,
+                                color: Colors.black,
+                              ),
+                              SizedBox(height: height * 0.01),
+                              Text(
+                                'Add an image',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(color: Colors.black),
+                              )
+                            ],
+                          ),
                   ),
                 ),
                 SizedBox(height: height * 0.02),
@@ -109,11 +137,15 @@ class _CreateEventPageState extends State<CreateEventPage>
                   hint: 'Enter your event name',
                 ),
                 SizedBox(height: height * 0.02),
-                CustomInputForm(
-                  controller: _descController,
-                  icon: Icons.description,
-                  label: 'Description',
-                  hint: 'Describe your event',
+                SizedBox(
+                  height: height * 0.15,
+                  child: CustomInputForm(
+                    maxLines: 4,
+                    controller: _descController,
+                    icon: Icons.description,
+                    label: 'Description',
+                    hint: 'Describe your event',
+                  ),
                 ),
                 SizedBox(height: height * 0.02),
                 CustomInputForm(
