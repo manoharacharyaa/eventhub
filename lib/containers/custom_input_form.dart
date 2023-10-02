@@ -28,41 +28,46 @@ class CustomInputForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      readOnly: readOnly ?? false,
-      onTap: onTap,
-      style:
-          Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black),
-      maxLines: maxLines ?? 1,
-      obscureText: obscureText ?? false,
-      keyboardType: keyboardType ?? TextInputType.text,
-      cursorColor: Colors.black,
-      validator: validator,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: kPrimary,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      height: 64,
+      child: TextFormField(
+        controller: controller,
+        readOnly: readOnly ?? false,
+        onTap: onTap,
+        style: Theme.of(context)
+            .textTheme
+            .titleSmall!
+            .copyWith(color: Colors.black),
+        maxLines: maxLines ?? 1,
+        obscureText: obscureText ?? false,
+        keyboardType: keyboardType ?? TextInputType.text,
+        cursorColor: Colors.black,
+        validator: validator,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: kPrimary,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          labelText: label,
+          labelStyle: const TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+          hintText: hint,
+          hintStyle: const TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+          ),
+          prefixIcon: Icon(
+            icon,
+            color: Colors.black,
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.never,
         ),
-        labelText: label,
-        labelStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-        hintText: hint,
-        hintStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.normal,
-        ),
-        prefixIcon: Icon(
-          icon,
-          color: Colors.black,
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
     );
   }

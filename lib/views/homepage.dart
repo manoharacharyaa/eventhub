@@ -1,6 +1,7 @@
 import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/saved_data.dart';
+import 'package:eventhub/views/create_event_page.dart';
 import 'package:eventhub/views/login.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +47,21 @@ class _HomePageState extends State<HomePage> {
         body: Text(
           'Hi ${userName}',
           style: Theme.of(context).textTheme.titleLarge,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CreateEventPage(),
+              ),
+            );
+          },
+          backgroundColor: kPrimary,
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
         ),
       ),
     );
