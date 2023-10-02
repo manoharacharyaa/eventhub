@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 import 'dart:io';
-
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_headtext.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -19,6 +19,7 @@ class _CreateEventPageState extends State<CreateEventPage>
   late AnimationController _controller;
 
   FilePickerResult? _filePickerResult;
+  bool _isInPersonEvent = true;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -75,6 +76,7 @@ class _CreateEventPageState extends State<CreateEventPage>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
@@ -178,6 +180,51 @@ class _CreateEventPageState extends State<CreateEventPage>
                   icon: Icons.monetization_on,
                   label: 'Sponsers',
                   hint: 'Enter the sponsers of the event',
+                ),
+                SizedBox(height: height * 0.015),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _isInPersonEvent
+                        ? Text(
+                            'In Person Event',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          )
+                        : Text(
+                            'Online Event',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                    FlutterSwitch(
+                      height: 30,
+                      width: 58,
+                      value: _isInPersonEvent,
+                      toggleColor: Colors.black,
+                      activeColor: kPrimary,
+                      inactiveColor: kPrimaryInactive,
+                      onToggle: (value) {
+                        setState(() {
+                          _isInPersonEvent = !_isInPersonEvent;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: height * 0.02),
+                MaterialButton(
+                  onPressed: () {},
+                  color: kPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  minWidth: width,
+                  height: height * 0.06,
+                  child: Text(
+                    'Create New Event',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: kBlack),
+                  ),
                 ),
               ],
             ),
