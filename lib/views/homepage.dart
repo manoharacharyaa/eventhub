@@ -4,6 +4,7 @@ import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/database.dart';
 import 'package:eventhub/saved_data.dart';
 import 'package:eventhub/views/create_event_page.dart';
+import 'package:eventhub/views/event_details.dart';
 import 'package:eventhub/views/login.dart';
 import 'package:flutter/material.dart';
 
@@ -61,14 +62,23 @@ class _HomePageState extends State<HomePage> {
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: Text(
-                'Hi ${userName}',
-                style: Theme.of(context).textTheme.titleLarge,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12),
+                child: Text(
+                  'EventHub $userName',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => ListTile(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventDetails(data: events[index]),
+                    ),
+                  ),
                   leading: Text(
                     '${index + 1}',
                     style: Theme.of(context).textTheme.titleMedium,

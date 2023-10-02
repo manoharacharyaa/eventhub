@@ -55,20 +55,21 @@ Future<void> createEvent(
 ) async {
   return await database
       .createDocument(
-          databaseId: databaseId,
-          collectionId: '651a83fdaad202984933',
-          documentId: ID.unique(),
-          data: {
-            "name": name,
-            "description": desc,
-            "image": image,
-            "location": location,
-            "datetime": datetime,
-            "createdBy": createdBy,
-            "isInPerson": isPerson,
-            "guests": guest,
-            "sponsers": sponsers,
-          })
+        databaseId: databaseId,
+        collectionId: '651a83fdaad202984933',
+        documentId: ID.unique(),
+        data: {
+          "name": name,
+          "description": desc,
+          "image": image,
+          "location": location,
+          "datetime": datetime,
+          "createdBy": createdBy,
+          "isInPerson": isPerson,
+          "guests": guest,
+          "sponsers": sponsers,
+        },
+      )
       .then((value) => print('Event Created'))
       .catchError((e) => print(e));
 }

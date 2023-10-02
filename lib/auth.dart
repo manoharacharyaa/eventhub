@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable, unused_catch_clause
-
 import 'package:appwrite/appwrite.dart';
 import 'package:eventhub/database.dart';
 import 'package:eventhub/saved_data.dart';
