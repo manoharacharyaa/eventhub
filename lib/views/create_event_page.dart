@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_headtext.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
@@ -32,6 +32,33 @@ class _CreateEventPageState extends State<CreateEventPage>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+//Date time picker method
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime? pickedDateTime = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDateTime != null) {
+      final TimeOfDay? pickTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickTime != null) {
+        final DateTime selectedDateTime = DateTime(
+          pickedDateTime.year,
+          pickedDateTime.month,
+          pickedDateTime.day,
+          pickTime.hour,
+        );
+        setState(() {
+          _dateTimeController.text = selectedDateTime.toString();
+        });
+      }
+    }
   }
 
   @override
@@ -101,7 +128,10 @@ class _CreateEventPageState extends State<CreateEventPage>
                   icon: Icons.date_range,
                   label: 'Date',
                   hint: 'Pick Date Time',
-                  onTap: () {},
+                  readOnly: true,
+                  onTap: () {
+                    _selectDateTime(context);
+                  },
                 ),
                 SizedBox(height: height * 0.02),
                 CustomInputForm(
