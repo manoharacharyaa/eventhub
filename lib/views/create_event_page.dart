@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 import 'dart:io';
+import 'package:appwrite/appwrite.dart';
+import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/custom_headtext.dart';
 import 'package:eventhub/containers/custom_input_form.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -26,6 +29,9 @@ class _CreateEventPageState extends State<CreateEventPage>
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _guestController = TextEditingController();
   final TextEditingController _sponsersController = TextEditingController();
+
+  Storage storage = Storage(client);
+  bool isUploading = false;
 
   @override
   void initState() {
@@ -71,6 +77,35 @@ class _CreateEventPageState extends State<CreateEventPage>
     setState(() {
       _filePickerResult = result;
     });
+  }
+
+  //upload event image to storage bucket
+  Future uploadEventImage() async {
+    setState(() {
+      isUploading = true;
+    });
+    try {
+      if (_filePickerResult != null) {
+        PlatformFile file = _filePickerResult!.files.first;
+        final fileBytes = await File(file.path!).readAsBytes();
+        final inputFile =
+            InputFile.fromBytes(bytes: fileBytes, filename: file.name);
+
+        final response = await storage.createFile(
+          bucketId: '651a89ae84605c06fb11',
+          fileId: ID.unique(),
+          file: inputFile,
+        );
+        print(response.$id);
+        return response.$id;
+      } else {
+        print('Something went wrong');
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isUploading = false;
+    }
   }
 
   @override
@@ -211,7 +246,9 @@ class _CreateEventPageState extends State<CreateEventPage>
                 ),
                 SizedBox(height: height * 0.02),
                 MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    uploadEventImage();
+                  },
                   color: kPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
