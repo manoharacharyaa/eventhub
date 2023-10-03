@@ -45,14 +45,15 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: kTransparent,
           actions: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 // logoutUser();
-                Navigator.push(
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const Profile(),
                   ),
                 );
+                _refresh();
               },
               icon: const Icon(Icons.person),
               color: kPrimary,

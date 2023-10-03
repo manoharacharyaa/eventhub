@@ -47,29 +47,30 @@ class _ManageEventsState extends State<ManageEvents> {
           shadowColor: kPrimary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           child: ListTile(
-              title: Text(
-                userCreatedEvents[index].data['name'],
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: kWhite),
+            title: Text(
+              userCreatedEvents[index].data['name'],
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: kWhite),
+            ),
+            subtitle: Text(
+              '${userCreatedEvents[index].data['participants'].length} pariicipants',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: kWhite, fontSize: 15),
+            ),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    EventDetails(data: userCreatedEvents[index]),
               ),
-              subtitle: Text(
-                '${userCreatedEvents[index].data['participants'].length} pariicipants',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: kWhite, fontSize: 15),
-              ),
-              onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          EventDetails(data: userCreatedEvents[index]),
-                    ),
-                  ),
-              trailing: IconButton(
-                onPressed: () => Navigator.push(
+            ),
+            trailing: IconButton(
+              onPressed: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => EditEventPage(
@@ -84,10 +85,13 @@ class _ManageEventsState extends State<ManageEvents> {
                       docID: userCreatedEvents[index].$id,
                     ),
                   ),
-                ),
-                icon: const Icon(Icons.edit),
-                color: kPrimary,
-              )),
+                );
+                refresh();
+              },
+              icon: const Icon(Icons.edit),
+              color: kPrimary,
+            ),
+          ),
         ),
       ),
     );
