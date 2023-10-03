@@ -342,6 +342,81 @@ class _EditEventPageState extends State<EditEventPage>
                         .copyWith(color: kBlack),
                   ),
                 ),
+                SizedBox(height: height * 0.02),
+                Text(
+                  'Danger Zone',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(color: Colors.red),
+                ),
+                SizedBox(height: height * 0.02),
+                MaterialButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Are you sure'),
+                        content: const Text(
+                          'Your Event will be deleted',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              deleteEvent(widget.docID).then((value) async {
+                                await storage.deleteFile(
+                                  bucketId: '651a89ae84605c06fb11',
+                                  fileId: widget.image,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('Event Deleted Sucessfullu!!'),
+                                  ),
+                                );
+                              });
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Yes',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'No',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  color: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  minWidth: width,
+                  height: height * 0.06,
+                  child: Text(
+                    'Delete Event',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: kBlack),
+                  ),
+                ),
               ],
             ),
           ),

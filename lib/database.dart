@@ -154,3 +154,17 @@ Future<void> updateEvent(
       .then((value) => print('Event Updated'))
       .catchError((e) => print(e));
 }
+
+//deleting an event
+Future deleteEvent(String docID) async {
+  try {
+    final response = await database.deleteDocument(
+      databaseId: databaseId,
+      collectionId: '651a83fdaad202984933',
+      documentId: docID,
+    );
+    print(response);
+  } catch (e) {
+    print(e);
+  }
+}
