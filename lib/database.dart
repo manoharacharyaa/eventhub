@@ -120,3 +120,37 @@ Future manageEvents() async {
     print(e);
   }
 }
+
+//update/edit the event
+Future<void> updateEvent(
+  String name,
+  String desc,
+  String image,
+  String location,
+  String datetime,
+  String createdBy,
+  bool isPerson,
+  String guest,
+  String sponsers,
+  String docID,
+) async {
+  return await database
+      .updateDocument(
+        databaseId: databaseId,
+        collectionId: '651a83fdaad202984933',
+        documentId: docID,
+        data: {
+          "name": name,
+          "description": desc,
+          "image": image,
+          "location": location,
+          "datetime": datetime,
+          "createdBy": createdBy,
+          "isInPerson": isPerson,
+          "guests": guest,
+          "sponsers": sponsers,
+        },
+      )
+      .then((value) => print('Event Updated'))
+      .catchError((e) => print(e));
+}

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: avoid_print, use_build_context_synchronously, unrelated_type_equality_checks
 import 'dart:io';
 import 'package:appwrite/appwrite.dart';
 import 'package:eventhub/auth.dart';
@@ -279,26 +279,53 @@ class _EditEventPageState extends State<EditEventPage>
                         ),
                       );
                     } else {
-                      uploadEventImage()
-                          .then((value) => createEvent(
-                                _nameController.text,
-                                _descController.text,
-                                value, //value is of image (Image Id)
-                                _locationController.text,
-                                _dateTimeController.text,
-                                userId,
-                                _isInPersonEvent,
-                                _guestController.text,
-                                _sponsersController.text,
-                              ))
-                          .then((value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Event Created'),
+                      if (_filePickerResult == null) {
+                        //if image is not changed the we only update event details
+                        //because adding same image again is a waste of storage
+                        updateEvent(
+                          _nameController.text,
+                          _descController.text,
+                          widget.image, //value is of image (Image Id)
+                          _locationController.text,
+                          _dateTimeController.text,
+                          userId,
+                          _isInPersonEvent,
+                          _guestController.text,
+                          _sponsersController.text,
+                          widget.docID,
+                        ).then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Event Updated'),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        });
+                      } else {
+                        uploadEventImage()
+                            .then(
+                          (value) => updateEvent(
+                            _nameController.text,
+                            _descController.text,
+                            value, //value is of image (Image Id)
+                            _locationController.text,
+                            _dateTimeController.text,
+                            userId,
+                            _isInPersonEvent,
+                            _guestController.text,
+                            _sponsersController.text,
+                            widget.docID,
                           ),
-                        );
-                        Navigator.pop(context);
-                      });
+                        )
+                            .then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Event Updated'),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        });
+                      }
                     }
                   },
                   color: kPrimary,
