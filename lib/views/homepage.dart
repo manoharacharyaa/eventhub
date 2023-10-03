@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<Document> events = [];
   @override
   void initState() {
-    userName = SaveData.getUserName().split('')[0];
+    userName = SaveData.getUserName();
     _refresh();
     super.initState();
   }
