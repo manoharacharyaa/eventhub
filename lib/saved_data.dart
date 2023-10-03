@@ -33,7 +33,7 @@ class SaveData {
   }
 
   //Get user email
-  static String getUserEmail(String email) {
+  static String getUserEmail() {
     return preferences!.getString('email') ?? '';
   }
 }

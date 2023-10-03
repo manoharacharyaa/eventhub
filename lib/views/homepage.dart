@@ -1,11 +1,12 @@
 import 'package:appwrite/models.dart';
 import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
+import 'package:eventhub/containers/event_containers.dart';
 import 'package:eventhub/database.dart';
 import 'package:eventhub/saved_data.dart';
 import 'package:eventhub/views/create_event_page.dart';
-import 'package:eventhub/views/event_details.dart';
 import 'package:eventhub/views/login.dart';
+import 'package:eventhub/views/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,15 +46,15 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: () {
-                logoutUser();
-                Navigator.pushReplacement(
+                // logoutUser();
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) => const Profile(),
                   ),
                 );
               },
-              icon: const Icon(Icons.logout),
+              icon: const Icon(Icons.person),
               color: kPrimary,
               iconSize: 30,
             ),
@@ -72,26 +73,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => ListTile(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EventDetails(data: events[index]),
-                    ),
-                  ),
-                  leading: Text(
-                    '${index + 1}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  title: Text(
-                    events[index].data["name"],
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  subtitle: Text(
-                    events[index].data["location"],
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ),
+                (context, index) => EventContainer(data: events[index]),
                 childCount: events.length,
               ),
             ),

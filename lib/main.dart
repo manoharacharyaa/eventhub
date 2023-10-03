@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: const ColorScheme.dark(),
-        appBarTheme: const AppBarTheme(centerTitle: true),
         textTheme: TextTheme(
           titleSmall: GoogleFonts.poppins(
             fontSize: 18,
