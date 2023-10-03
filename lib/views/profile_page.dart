@@ -2,6 +2,7 @@ import 'package:eventhub/auth.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/saved_data.dart';
 import 'package:eventhub/views/login.dart';
+import 'package:eventhub/views/manage_events.dart';
 import 'package:eventhub/views/rsvp_events.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +79,14 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ManageEvents(),
+                          ),
+                        );
+                      },
                       title: Text(
                         'Manage Events',
                         style: Theme.of(context).textTheme.titleSmall,

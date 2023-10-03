@@ -106,3 +106,17 @@ Future rsvpEvent(List participants, String documentId) async {
     return false;
   }
 }
+
+//list all events created by the user
+Future manageEvents() async {
+  final userId = SaveData.getUserId();
+  try {
+    final data = await database.listDocuments(
+        databaseId: databaseId,
+        collectionId: '651a83fdaad202984933',
+        queries: [Query.equal("createdBy", userId)]);
+    return data.documents;
+  } catch (e) {
+    print(e);
+  }
+}
