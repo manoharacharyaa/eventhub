@@ -1,6 +1,8 @@
 import 'package:appwrite/models.dart';
 import 'package:eventhub/colors/colors.dart';
 import 'package:eventhub/containers/format_datetime.dart';
+import 'package:eventhub/database.dart';
+import 'package:eventhub/saved_data.dart';
 import 'package:flutter/material.dart';
 
 class EventDetails extends StatefulWidget {
@@ -12,6 +14,21 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetailsState extends State<EventDetails> {
+  bool isRSVPedEvent = false;
+  String id = "";
+
+//to check wether userId is present in participant list
+  bool isUserPresent(List<dynamic> participants, String userId) {
+    return participants.contains(userId);
+  }
+
+  @override
+  void initState() {
+    id = SaveData.getUserId();
+    isRSVPedEvent = isUserPresent(widget.data.data["participants"], id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -212,22 +229,69 @@ class _EventDetailsState extends State<EventDetails> {
                         label: const Text('Open With Google Maps'),
                       ),
                       SizedBox(height: height * 0.02),
-                      MaterialButton(
-                        onPressed: () {},
-                        color: kPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        minWidth: width,
-                        height: height * 0.06,
-                        child: Text(
-                          'RSVP Event',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(color: kBlack),
-                        ),
-                      ),
+                      isRSVPedEvent
+                          ? MaterialButton(
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("You are attending this event."),
+                                  ),
+                                );
+                              },
+                              color: kPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              minWidth: width,
+                              height: height * 0.06,
+                              child: Text(
+                                'Attending Event',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: kBlack),
+                              ),
+                            )
+                          : MaterialButton(
+                              onPressed: () {
+                                rsvpEvent(widget.data.data["participants"],
+                                        widget.data.$id)
+                                    .then((value) {
+                                  if (value) {
+                                    setState(() {
+                                      isRSVPedEvent = true;
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('RSVP Sucessfull!!!'),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'You are attending this event',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }).catchError((e) {});
+                              },
+                              color: kPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              minWidth: width,
+                              height: height * 0.06,
+                              child: Text(
+                                'RSVP Event',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: kBlack),
+                              ),
+                            ),
                     ],
                   ),
                 ),

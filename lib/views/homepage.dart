@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   List<Document> events = [];
   @override
   void initState() {
-    userName = SaveData.getUserName();
+    userName = SaveData.getUserName().split('')[0];
     _refresh();
     super.initState();
   }
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: Text(
-                  'EventHub $userName',
+                  'EventHub',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
