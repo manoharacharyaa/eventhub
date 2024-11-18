@@ -32,7 +32,7 @@ Future<String> createUser(String name, String email, String password) async {
 //Login
 Future loginUser(String email, String password) async {
   try {
-    final user = await account.createEmailSession(
+    final user = await account.createEmailPasswordSession(
       email: email,
       password: password,
     );
